@@ -18,13 +18,15 @@ export default function Navbar(){
         </div>
 
          <div className="flex gap-10.5 justify-between">
+
+
             {/* token ka div */}
             <div className="flex gap-1">
-
             {/* tokens ke no rkhne k liye */}
             <span>10</span>
              <Link to="/Tokens">Tokens</Link>
             </div>
+            
 
             <Link to="/Login">Login</Link>
            

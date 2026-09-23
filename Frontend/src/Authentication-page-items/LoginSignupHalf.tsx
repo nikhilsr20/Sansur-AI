@@ -1,4 +1,16 @@
 import { useState,useRef } from "react";
+import axios from "axios";
+
+interface LoginResponse{
+    message: string;
+    token: string;
+}
+interface SignupResponse{
+    message: string;
+
+}
+
+
 // yeh h login signup ka half section 
 export default function LoginSignupHalf(){
 
@@ -22,8 +34,8 @@ export default function LoginSignupHalf(){
 
 
    
-
-   const errorTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+// yeh type script ka part h and humne idhr useRef isliye use kiya kuyu ki hum re render nhi krana tha 
+const errorTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
 const Errorremove = () => {
 
@@ -38,9 +50,10 @@ const Errorremove = () => {
 
     
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
-
-        e.preventDefault();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
+     
+    console.log("enter");
+    e.preventDefault();
 
     if(!email.current?.value){
       setError("Email is required");
@@ -72,14 +85,24 @@ const Errorremove = () => {
          return;
     }
 
+     // so here instead of the fetch i am using await because woh easy to write h syntactically
+    if(currtype==="Login"){
+          const response=await axios.post<LoginResponse>("http://localhost:8080/Login",{
+            email:email.current?.value,
+            password:password.current?.value
+          })
 
-      
-        if(currtype==="Login"){
-        //   const response=await fetch("http://localhost:8080/login")
-        } 
-        else{
-        //  const response=await fetch("http://localhost:8080/Signup")
-        }
+          console.log(response.data);
+    } 
+    else{
+          console.log("enter");
+        const response=await axios.post<SignupResponse>("http://localhost:8080/Signup",{
+            email:email.current?.value,
+            password:password.current?.value,
+            cpassword:cpassword.current?.value
+        })
+         console.log(response.data);
+    }
            
     }
 

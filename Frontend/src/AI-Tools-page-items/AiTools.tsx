@@ -4,6 +4,7 @@ import SearchAndSort from "./SearchAndSort"
 export default function AiTools(){
     return (
         <section>
+        
             <Navbar/>
             <SearchAndSort/>
             <AiToolsPage/>
