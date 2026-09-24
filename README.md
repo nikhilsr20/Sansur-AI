@@ -5,3 +5,4 @@
 
 1. Abhi mene website me http use kiya h kyuki local host pr ho rha production but later mujhe https use krna h.
 
+2. Redis Cache Use krna h to store the jwt tokens. 

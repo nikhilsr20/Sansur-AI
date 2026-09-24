@@ -1,5 +1,6 @@
 import { useState,useRef } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface LoginResponse{
     message: string;
@@ -7,7 +8,6 @@ interface LoginResponse{
 }
 interface SignupResponse{
     message: string;
-
 }
 
 
@@ -20,6 +20,7 @@ export default function LoginSignupHalf(){
     const cpassword = useRef<HTMLInputElement>(null);
 
     const [error,setError]=useState<string>("");
+    const navigate=useNavigate()
 
 
     const handleCurrType=()=>{
@@ -87,7 +88,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
 
      // so here instead of the fetch i am using await because woh easy to write h syntactically
     if(currtype==="Login"){
-          const response=await axios.post<LoginResponse>("http://localhost:8080/Login",{
+          const response=await axios.post<LoginResponse>("http://localhost:8080/auth/Login",{
             email:email.current?.value,
             password:password.current?.value
           })
@@ -96,12 +97,20 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>)=>{
     } 
     else{
           console.log("enter");
-        const response=await axios.post<SignupResponse>("http://localhost:8080/Signup",{
+        const response=await axios.post<SignupResponse>("http://localhost:8080/auth/Signup",{
             email:email.current?.value,
             password:password.current?.value,
             cpassword:cpassword.current?.value
         })
-         console.log(response.data);
+         console.log(response.data.message);
+         if(response.data.message==="Email Already Exists"){
+            setError("passwords does'nt match");
+         Errorremove();
+         return;
+         }
+         else{
+             navigate("/Login");
+         }
     }
            
     }
